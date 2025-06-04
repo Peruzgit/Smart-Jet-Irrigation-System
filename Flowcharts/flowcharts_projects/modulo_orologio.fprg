@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="modulo_orologio"/>
+        <attribute name="authors" value=""/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-06-03 05:57:52 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA1OjU2OjU0ICI7Mjc5NQ=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA1OjU3OjUyICI7MTsyOTAy"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="tempoBase, elapsed, minutiTotali, oraCorrente, minutoCorrente" type="Integer" array="False" size=""/>
+            <assign variable="elapsed" expression="(GetMilliSeconds() - tempoBase) / 1000"/>
+            <assign variable="minutiTotali" expression="(oraCorrente * 60 + minutoCorrente + elapsed / 60) % 1440"/>
+            <assign variable="oraCorrente" expression="minutiTotali / 60"/>
+            <assign variable="minutoCorrente" expression="minutiTotali % 60"/>
+        </body>
+    </function>
+</flowgorithm>

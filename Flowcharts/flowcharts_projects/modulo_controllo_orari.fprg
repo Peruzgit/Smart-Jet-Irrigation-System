@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="modulo_controllo_orari"/>
+        <attribute name="authors" value=""/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-06-03 06:31:14 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjMwOjU5ICI7Mjc5Mw=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjMxOjE0ICI7MTsyODkz"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="oraCorrente" type="Integer" array="False" size=""/>
+            <declare name="minutoCorrente" type="Integer" array="False" size=""/>
+            <declare name="orarioProgrammatoOra" type="Integer" array="False" size=""/>
+            <declare name="orarioProgrammatoMinuto" type="Integer" array="False" size=""/>
+            <output expression="&quot;Inserisci ora corrente:&quot;" newline="True"/>
+            <input variable="oraCorrente"/>
+            <output expression="&quot;Inserisci minuto corrente:&quot;" newline="True"/>
+            <input variable="minutoCorrente"/>
+            <output expression="&quot;Inserisci ora programmata:&quot;" newline="True"/>
+            <input variable="orarioProgrammatoOra"/>
+            <output expression="&quot;Inserisci minuto programmato:&quot;" newline="True"/>
+            <input variable="orarioProgrammatoMinuto"/>
+            <if expression="oraCorrente == orarioProgrammatoOra and minutoCorrente == orarioProgrammatoMinuto">
+                <then>
+                    <output expression="&quot;Orario corrispondente trovato: avvio irrigazione&quot;" newline="True"/>
+                </then>
+                <else>
+                    <output expression="&quot;Nessun orario corrispondente&quot;" newline="True"/>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>

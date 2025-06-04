@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="modulo_interfaccia_seriale"/>
+        <attribute name="authors" value=""/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-06-03 06:26:16 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjI2OjA0ICI7Mjc4OA=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjI2OjE2ICI7MTsyODk5"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="data" type="String" array="False" size=""/>
+            <declare name="ora" type="String" array="False" size=""/>
+            <declare name="numeroOrari" type="Integer" array="False" size=""/>
+            <output expression="&quot;Inserisci la data (gg/mm/aaaa):&quot;" newline="True"/>
+            <input variable="data"/>
+            <output expression="&quot;Inserisci l'ora (hh:mm):&quot;" newline="True"/>
+            <input variable="ora"/>
+            <output expression="&quot;Inserisci numero di orari da programmare:&quot;" newline="True"/>
+            <input variable="numeroOrari"/>
+        </body>
+    </function>
+</flowgorithm>

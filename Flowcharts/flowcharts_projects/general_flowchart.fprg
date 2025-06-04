@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="flowchart"/>
+        <attribute name="authors" value="Peruz"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-05-19 03:12:46 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDUtMTk7IjAyOjI0OjE5ICI7Mjc5NA=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDUtMTk7IjAzOjEyOjQ2ICI7MjsyOTAx"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="avvioCiclo" type="Boolean" array="False" size=""/>
+            <declare name="oraAttuale" type="String" array="False" size=""/>
+            <declare name="orari" type="Integer" array="True" size="16"/>
+            <declare name="durate" type="Integer" array="True" size="16"/>
+            <declare name="sogliaMin" type="Integer" array="False" size=""/>
+            <declare name="sogliaMax" type="Integer" array="False" size=""/>
+            <declare name="hum" type="Integer" array="True" size="5"/>
+            <declare name="humMin" type="Integer" array="False" size=""/>
+            <declare name="velocitaServo" type="Integer" array="False" size=""/>
+            <declare name="pulsantePremuto" type="Boolean" array="False" size=""/>
+            <declare name="tempoInizio" type="Integer" array="False" size=""/>
+            <declare name="tempoAttuale" type="Integer" array="False" size=""/>
+            <input variable="oraAttuale"/>
+            <input variable="orari"/>
+            <input variable="durate"/>
+            <input variable="sogliaMin"/>
+            <input variable="sogliaMax"/>
+            <assign variable="avvioCiclo" expression="false"/>
+            <assign variable="pulsantePremuto" expression="false"/>
+            <while expression="While (true)">
+                <assign variable="avvioCiclo" expression="false"/>
+                <comment text="scheduler"/>
+                <assign variable="tempoOra" expression="oraAttuale"/>
+                <for variable="k" start="1" end="16" direction="inc" step="1">
+                    <if expression="If(tempoOra = orari[k])">
+                        <then>
+                            <assign variable="avvioCiclo" expression="true"/>
+                        </then>
+                        <else/>
+                    </if>
+                </for>
+                <comment text="avvio irrigazione?"/>
+                <if expression="If (avvioCiclo = true OR pulsantePremuto = true)">
+                    <then>
+                        <assign variable="tempoIniziale" expression="tempoOra"/>
+                        <comment text="Ciclo di irrigazione"/>
+                        <while expression="While (tempoOra - tempoIniz) &lt; durate[k]">
+                            <comment text="Lettura Sensori"/>
+                            <for variable="i" start="1" end="5" direction="inc" step="1">
+                                <assign variable="h[i]" expression="LeggiADC(i)"/>
+                            </for>
+                            <comment text="Calcolo hum minimo"/>
+                            <assign variable="humMin" expression="hum[1]"/>
+                            <for variable="i" start="2" end="5" direction="inc" step="1">
+                                <if expression="If (hum[i] &lt; humMin)">
+                                    <then>
+                                        <assign variable="humMin" expression="hum[i]"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </for>
+                            <comment text="Controllo umidit&#224;"/>
+                            <if expression="If (humMin &lt; sogliaMin)">
+                                <then>
+                                    <assign variable="velocitaServo" expression="(sogliaMin - humMin) * MAXVEL / sogliaMin"/>
+                                    <call expression="AccendiRelay()"/>
+                                    <call expression="MuoviServo(velServo)"/>
+                                </then>
+                                <else>
+                                    <call expression="SpegniRelay()"/>
+                                    <call expression="FermaServo()"/>
+                                </else>
+                            </if>
+                            <assign variable="tempoOra" expression="oraAttuale"/>
+                        </while>
+                        <comment text="Fine ciclo"/>
+                        <call expression="SpegniRelay()"/>
+                        <call expression="PosizionaHomeServo()"/>
+                        <call expression="EntraPowerDown()"/>
+                    </then>
+                    <else>
+                        <call expression="EntraPowerDown()"/>
+                    </else>
+                </if>
+            </while>
+        </body>
+    </function>
+</flowgorithm>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="modulo_led_logico"/>
+        <attribute name="authors" value=""/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-06-03 06:22:39 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjIxOjMxICI7Mjc4Mw=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjIyOjM5ICI7MTsyOTAw"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="irrigazioneInCorso" type="Integer" array="False" size=""/>
+            <declare name="media" type="Integer" array="False" size=""/>
+            <declare name="sogliaMin" type="Integer" array="False" size=""/>
+            <assign variable="sogliaMin" expression="300"/>
+            <output expression="&quot;Inserisci valore umidit&#224; media (0-1023):&quot;" newline="True"/>
+            <input variable="media"/>
+            <output expression="&quot;Irrigazione in corso? (1=si, 0=no):&quot;" newline="True"/>
+            <input variable="irrigazioneInCorso"/>
+            <if expression="irrigazioneInCorso == 1">
+                <then>
+                    <output expression="&quot;LED lampeggia velocemente (stato: irrigazione)&quot;" newline="True"/>
+                </then>
+                <else>
+                    <if expression="sogliaMin">
+                        <then>
+                            <output expression="&quot;LED acceso fisso (stato: troppo secco)&quot;" newline="True"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;LED spento (stato: umidit&#224; normale)&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>
