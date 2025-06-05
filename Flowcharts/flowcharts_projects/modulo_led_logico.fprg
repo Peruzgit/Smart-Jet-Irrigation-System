@@ -2,34 +2,46 @@
 <flowgorithm fileversion="4.2">
     <attributes>
         <attribute name="name" value="modulo_led_logico"/>
-        <attribute name="authors" value=""/>
+        <attribute name="authors" value="Peruz"/>
         <attribute name="about" value=""/>
-        <attribute name="saved" value="2025-06-03 06:22:39 "/>
-        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjIxOjMxICI7Mjc4Mw=="/>
-        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjIyOjM5ICI7MTsyOTAw"/>
+        <attribute name="saved" value="2025-06-05 04:07:09 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjAzOjU2OjI4ICI7Mjc5Ng=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjA0OjA3OjA5ICI7MTsyOTAw"/>
     </attributes>
     <function name="Main" type="None" variable="">
         <parameters/>
         <body>
-            <declare name="irrigazioneInCorso" type="Integer" array="False" size=""/>
+            <declare name="statoLED" type="Boolean" array="False" size=""/>
             <declare name="media" type="Integer" array="False" size=""/>
-            <declare name="sogliaMin" type="Integer" array="False" size=""/>
-            <assign variable="sogliaMin" expression="300"/>
-            <output expression="&quot;Inserisci valore umidit&#224; media (0-1023):&quot;" newline="True"/>
-            <input variable="media"/>
-            <output expression="&quot;Irrigazione in corso? (1=si, 0=no):&quot;" newline="True"/>
-            <input variable="irrigazioneInCorso"/>
-            <if expression="irrigazioneInCorso == 1">
+            <assign variable="statoLED" expression="false"/>
+            <if expression="irrigazioneInCorso = true">
                 <then>
-                    <output expression="&quot;LED lampeggia velocemente (stato: irrigazione)&quot;" newline="True"/>
-                </then>
-                <else>
-                    <if expression="sogliaMin">
+                    <assign variable="tickLED" expression="tickMillis"/>
+                    <assign variable="statoLED" expression="!statoLED"/>
+                    <if expression="statoLED == true">
                         <then>
-                            <output expression="&quot;LED acceso fisso (stato: troppo secco)&quot;" newline="True"/>
+                            <comment text="PB5 &#8594; PORTB |= (1 &lt;&lt; 5)"/>
                         </then>
                         <else>
-                            <output expression="&quot;LED spento (stato: umidit&#224; normale)&quot;" newline="True"/>
+                            <comment text="PORTB &amp;= ~(1 &lt;&lt; PB5)"/>
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <if expression="sleepMode == false">
+                        <then>
+                            <assign variable="media" expression="leggiUmiditaMedia()"/>
+                            <if expression="media &lt; sogliaMin">
+                                <then>
+                                    <comment text="PORTB |= (1 &lt;&lt; PB5)"/>
+                                </then>
+                                <else>
+                                    <comment text="PORTB &amp;= ~(1 &lt;&lt; PB5)"/>
+                                </else>
+                            </if>
+                        </then>
+                        <else>
+                            <comment text="PORTB &amp;= ~(1 &lt;&lt; PB5)"/>
                         </else>
                     </if>
                 </else>

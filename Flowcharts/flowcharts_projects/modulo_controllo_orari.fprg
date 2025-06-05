@@ -2,34 +2,32 @@
 <flowgorithm fileversion="4.2">
     <attributes>
         <attribute name="name" value="modulo_controllo_orari"/>
-        <attribute name="authors" value=""/>
+        <attribute name="authors" value="Peruz"/>
         <attribute name="about" value=""/>
-        <attribute name="saved" value="2025-06-03 06:31:14 "/>
-        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjMwOjU5ICI7Mjc5Mw=="/>
-        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA2OjMxOjE0ICI7MTsyODkz"/>
+        <attribute name="saved" value="2025-06-05 04:22:54 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjA0OjE5OjAwICI7Mjc4Ng=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjA0OjIyOjU0ICI7MTsyODk3"/>
     </attributes>
     <function name="Main" type="None" variable="">
         <parameters/>
         <body>
-            <declare name="oraCorrente" type="Integer" array="False" size=""/>
-            <declare name="minutoCorrente" type="Integer" array="False" size=""/>
-            <declare name="orarioProgrammatoOra" type="Integer" array="False" size=""/>
-            <declare name="orarioProgrammatoMinuto" type="Integer" array="False" size=""/>
-            <output expression="&quot;Inserisci ora corrente:&quot;" newline="True"/>
-            <input variable="oraCorrente"/>
-            <output expression="&quot;Inserisci minuto corrente:&quot;" newline="True"/>
-            <input variable="minutoCorrente"/>
-            <output expression="&quot;Inserisci ora programmata:&quot;" newline="True"/>
-            <input variable="orarioProgrammatoOra"/>
-            <output expression="&quot;Inserisci minuto programmato:&quot;" newline="True"/>
-            <input variable="orarioProgrammatoMinuto"/>
-            <if expression="oraCorrente == orarioProgrammatoOra and minutoCorrente == orarioProgrammatoMinuto">
+            <declare name="indice" type="Integer" array="False" size=""/>
+            <declare name="ultimoMinutoEseguito" type="Integer" array="False" size=""/>
+            <assign variable="ultimoMinutoEseguito" expression="-1"/>
+            <if expression="sleepMode == true AND statoCorrente == HIGH AND statoPulsantePrecedente == LOW AND !irrigazioneInCorso">
                 <then>
-                    <output expression="&quot;Orario corrispondente trovato: avvio irrigazione&quot;" newline="True"/>
+                    <comment text="Avvia irrigazione manuale"/>
+                    <call expression="eseguiIrrigazioneSingoloCiclo()"/>
                 </then>
-                <else>
-                    <output expression="&quot;Nessun orario corrispondente&quot;" newline="True"/>
-                </else>
+                <else/>
+            </if>
+            <assign variable="indice" expression="trovaOrarioCorrente()"/>
+            <if expression="sleepMode == true AND !irrigazioneInCorso AND indice != -1 AND minutoCorrente != ultimoMinutoEseguito">
+                <then>
+                    <assign variable="ultimoMinutoEseguito" expression="minutoCorrente"/>
+                    <comment text="eseguiIrrigazioneDurata(orari[indice].durataMinuti)"/>
+                </then>
+                <else/>
             </if>
         </body>
     </function>

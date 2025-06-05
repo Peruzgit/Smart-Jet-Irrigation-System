@@ -1,21 +1,45 @@
 <?xml version="1.0"?>
 <flowgorithm fileversion="4.2">
     <attributes>
-        <attribute name="name" value="modulo_orologio"/>
-        <attribute name="authors" value=""/>
+        <attribute name="name" value="d"/>
+        <attribute name="authors" value="Peruz"/>
         <attribute name="about" value=""/>
-        <attribute name="saved" value="2025-06-03 05:57:52 "/>
-        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA1OjU2OjU0ICI7Mjc5NQ=="/>
-        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDM7IjA1OjU3OjUyICI7MTsyOTAy"/>
+        <attribute name="saved" value="2025-06-05 03:47:02 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjAzOjQzOjA1ICI7Mjc4Nw=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjAzOjQ3OjAyICI7MTsyODk2"/>
     </attributes>
     <function name="Main" type="None" variable="">
         <parameters/>
         <body>
-            <declare name="tempoBase, elapsed, minutiTotali, oraCorrente, minutoCorrente" type="Integer" array="False" size=""/>
-            <assign variable="elapsed" expression="(GetMilliSeconds() - tempoBase) / 1000"/>
-            <assign variable="minutiTotali" expression="(oraCorrente * 60 + minutoCorrente + elapsed / 60) % 1440"/>
-            <assign variable="oraCorrente" expression="minutiTotali / 60"/>
-            <assign variable="minutoCorrente" expression="minutiTotali % 60"/>
+            <assign variable="tickMillis" expression="tickMillis + 1"/>
+            <assign variable="contatoreMillis" expression="contatoreMillis + 1"/>
+            <if expression="contatoreMillis &gt;= 1000">
+                <then>
+                    <assign variable="contatoreMillis" expression="0"/>
+                    <assign variable="secondi" expression="secondi + 1"/>
+                    <if expression="secondi &gt;= 60">
+                        <then>
+                            <assign variable="secondi" expression="0"/>
+                            <assign variable="minutoCorrente" expression="minutoCorrente + 1"/>
+                            <if expression="minutoCorrente &gt;= 60">
+                                <then>
+                                    <assign variable="minutoCorrente" expression="0"/>
+                                    <assign variable="oraCorrente" expression="oraCorrente + 1"/>
+                                    <if expression="oraCorrente &gt;= 24">
+                                        <then>
+                                            <assign variable="oraCorrente" expression="0"/>
+                                        </then>
+                                        <else/>
+                                    </if>
+                                </then>
+                                <else/>
+                            </if>
+                        </then>
+                        <else/>
+                    </if>
+                </then>
+                <else/>
+            </if>
         </body>
     </function>
 </flowgorithm>

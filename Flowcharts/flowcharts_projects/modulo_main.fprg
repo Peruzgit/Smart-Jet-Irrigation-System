@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="moudlo_main"/>
+        <attribute name="authors" value="Peruz"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2025-06-05 04:27:03 "/>
+        <attribute name="created" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjA0OjIzOjA2ICI7Mjc4Nw=="/>
+        <attribute name="edited" value="UGVydXo7REVTS1RPUC1MUTFTMEhHOzIwMjUtMDYtMDU7IjA0OjI3OjAzICI7MTsyODk2"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <comment text="Chiama: setupPWM_Timer1, initADC, setupTimer2, ecc."/>
+            <comment text="Carica data/orario/orari da Serial"/>
+            <do expression="While(true)">
+                <comment text="bool statoCorrente = (PIND &amp; (1 &lt;&lt; PD2))"/>
+                <if expression="sleepMode == true AND statoCorrente == HIGH AND statoPulsantePrecedente == LOW AND !irrigazioneInCorso">
+                    <then>
+                        <call expression="eseguiIrrigazioneSingoloCiclo()"/>
+                        <assign variable="indice" expression="trovaOrarioCorrente()"/>
+                    </then>
+                    <else/>
+                </if>
+                <if expression="sleepMode AND !irrigazioneInCorso AND indice != -1 AND minutoCorrente != ultimoMinutoEseguito">
+                    <then>
+                        <comment text="eseguiIrrigazioneDurata(...)"/>
+                        <call expression="aggiornaStatoLED()"/>
+                    </then>
+                    <else/>
+                </if>
+                <if expression="sleepMode AND !irrigazioneInCorso">
+                    <then>
+                        <call expression="entraInSleepMode()"/>
+                        <comment text="while (!wdtWakeUp);"/>
+                    </then>
+                    <else/>
+                </if>
+            </do>
+        </body>
+    </function>
+</flowgorithm>
